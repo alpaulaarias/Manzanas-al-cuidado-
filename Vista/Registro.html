@@ -1,0 +1,62 @@
+    <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="principal">
+
+<div class="formulario">
+    <div class="form-container">
+        <form id="registroForm">
+            <h2>REGISTRATE</h2>
+
+            <!-- Campo Nombre -->
+            <div class="input-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" placeholder="Ingresa tu nombre" required>
+            </div>
+
+            <!-- Selección de Tipo de Documento -->
+            <div class="input-group">
+                <label for="tipo-documento">Tipo de Documento</label>
+                <select id="tipo-documento" required>
+                    <option value="" disabled selected>Selecciona un tipo de documento</option>
+                    <option value="cedula">Cédula de Ciudadanía</option>
+                    <option value="tarjeta-identidad">Tarjeta de Identidad</option>
+                    <option value="cedula-extranjera">Cédula Extranjera</option>
+                </select>
+            </div>
+
+            <!-- Campo Número de Documento -->
+            <div class="input-group">
+                <label for="numero-documento">Número de Documento</label>
+                <input type="text" id="numero-documento" placeholder="Ingresa tu número de documento" required>
+            </div>
+
+            <!-- Selección de Manzana -->
+            <div class="input-group">
+                <label for="manzana">Manzana</label>
+                <select id="manzana" required>
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="BOSA">BOSA</option>
+                    <option value="KENNEDY">KENNEDY</option>
+                    <option value="SUBA">SUBA</option>
+                </select>
+            </div>
+
+            <!-- Botones Enviar y Atrás -->
+            <div class="button-group">
+                <button type="button" id="atrasBtn" class="back-btn">Atrás</button>
+                <button type="submit" class="submit-btn">Enviar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
