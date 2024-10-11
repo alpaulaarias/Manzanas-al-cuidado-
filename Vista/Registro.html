@@ -10,7 +10,7 @@
 
 <div class="formulario">
     <div class="form-container">
-        <form id="registroForm">
+        <form id="registroForm" action="https://localhost:3000/crear"  method="POST">
             <h2>REGISTRATE</h2>
 
             <!-- Campo Nombre -->
@@ -22,18 +22,18 @@
             <!-- Selección de Tipo de Documento -->
             <div class="input-group">
                 <label for="tipo-documento">Tipo de Documento</label>
-                <select id="tipo-documento" required>
+                <select id="tipo" required>
                     <option value="" disabled selected>Selecciona un tipo de documento</option>
-                    <option value="cedula">Cédula de Ciudadanía</option>
-                    <option value="tarjeta-identidad">Tarjeta de Identidad</option>
-                    <option value="cedula-extranjera">Cédula Extranjera</option>
+                    <option value="CC">Cédula de Ciudadanía</option>
+                    <option value="TI">Tarjeta de Identidad</option>
+                    <option value="CE">Cédula Extranjera</option>
                 </select>
             </div>
 
             <!-- Campo Número de Documento -->
             <div class="input-group">
                 <label for="numero-documento">Número de Documento</label>
-                <input type="text" id="numero-documento" placeholder="Ingresa tu número de documento" required>
+                <input type="text" id="numero" placeholder="Ingresa tu número de documento" required>
             </div>
 
             <!-- Selección de Manzana -->
