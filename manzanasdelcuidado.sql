@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-10-2024 a las 02:33:23
+-- Tiempo de generación: 11-10-2024 a las 16:26:26
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,9 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `manzanas` (
   `id_manzana` int(5) NOT NULL,
   `Nombre_manzana` varchar(30) DEFAULT NULL,
-  `Localidad` set('BOSA','KENNEDY','SUBA') DEFAULT NULL,
-  `Direccion_manzana` text DEFAULT NULL,
-  `fk_id_mujer` int(5) DEFAULT NULL
+  `Localidad` varchar(30) DEFAULT NULL,
+  `Direccion_manzana` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -56,7 +55,7 @@ CREATE TABLE `servicios` (
   `id_servicio` int(5) NOT NULL,
   `Nombre_servicio` varchar(30) DEFAULT NULL,
   `Tipo_servicio` varchar(30) DEFAULT NULL,
-  `fk_id_solicitud` int(5) DEFAULT NULL
+  `Descripcion` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -71,7 +70,8 @@ CREATE TABLE `solicitudes` (
   `Fecha_asistencia` date DEFAULT NULL,
   `Nombre_establecimiento` varchar(50) DEFAULT NULL,
   `Responsable_establecimiento` varchar(30) DEFAULT NULL,
-  `Direccion_establecimiento` text DEFAULT NULL
+  `Direccion_establecimeinto` text DEFAULT NULL,
+  `fk_id_servicio` int(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -82,15 +82,16 @@ CREATE TABLE `solicitudes` (
 
 CREATE TABLE `usuario` (
   `id_mujer` int(5) NOT NULL,
-  `Tipo_documento` set('CC','TI','CE') DEFAULT NULL,
+  `Tipo_documento` varchar(30) DEFAULT NULL,
   `Documento` int(10) DEFAULT NULL,
-  `Nombres` varchar(50) DEFAULT NULL,
-  `Apellidos` varchar(50) DEFAULT NULL,
+  `Nombres` varchar(30) DEFAULT NULL,
+  `Apellidos` varchar(30) DEFAULT NULL,
   `Telefono` int(10) DEFAULT NULL,
   `Email` varchar(50) DEFAULT NULL,
   `Ciudad` varchar(30) DEFAULT NULL,
   `Direccion_mujer` text DEFAULT NULL,
-  `Ocupacion` varchar(30) DEFAULT NULL
+  `Ocupacion` varchar(30) DEFAULT NULL,
+  `fk_id_manzana` int(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -101,8 +102,7 @@ CREATE TABLE `usuario` (
 -- Indices de la tabla `manzanas`
 --
 ALTER TABLE `manzanas`
-  ADD PRIMARY KEY (`id_manzana`),
-  ADD KEY `fk_3` (`fk_id_mujer`);
+  ADD PRIMARY KEY (`id_manzana`);
 
 --
 -- Indices de la tabla `manzanas_servicios`
@@ -115,20 +115,21 @@ ALTER TABLE `manzanas_servicios`
 -- Indices de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  ADD PRIMARY KEY (`id_servicio`),
-  ADD KEY `fk_4` (`fk_id_solicitud`);
+  ADD PRIMARY KEY (`id_servicio`);
 
 --
 -- Indices de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  ADD PRIMARY KEY (`id_solicitud`);
+  ADD PRIMARY KEY (`id_solicitud`),
+  ADD KEY `fk_5` (`fk_id_servicio`);
 
 --
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id_mujer`);
+  ADD PRIMARY KEY (`id_mujer`),
+  ADD KEY `fk_3` (`fk_id_manzana`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -163,12 +164,6 @@ ALTER TABLE `usuario`
 --
 
 --
--- Filtros para la tabla `manzanas`
---
-ALTER TABLE `manzanas`
-  ADD CONSTRAINT `fk_3` FOREIGN KEY (`fk_id_mujer`) REFERENCES `usuario` (`id_mujer`);
-
---
 -- Filtros para la tabla `manzanas_servicios`
 --
 ALTER TABLE `manzanas_servicios`
@@ -176,10 +171,16 @@ ALTER TABLE `manzanas_servicios`
   ADD CONSTRAINT `fk_2` FOREIGN KEY (`fk_id_servicio`) REFERENCES `servicios` (`id_servicio`);
 
 --
--- Filtros para la tabla `servicios`
+-- Filtros para la tabla `solicitudes`
 --
-ALTER TABLE `servicios`
-  ADD CONSTRAINT `fk_4` FOREIGN KEY (`fk_id_solicitud`) REFERENCES `solicitudes` (`id_solicitud`);
+ALTER TABLE `solicitudes`
+  ADD CONSTRAINT `fk_5` FOREIGN KEY (`fk_id_servicio`) REFERENCES `servicios` (`id_servicio`);
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `fk_3` FOREIGN KEY (`fk_id_manzana`) REFERENCES `manzanas` (`id_manzana`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -4,40 +4,71 @@
     box-sizing: border-box;
     font-family: 'Arial', sans-serif;
 }
+
+
 /* Index */
-header{
-    width: 100%;
-    height: 90px;
+header {
     display: flex;
-    justify-content: space-between;
+    text-align: center;
+    position: fixed;
+    padding: 0;
+    width: 90%;
+    height: 80px;
+    background-color: #fff;
+    top: 2%;
+    border-radius: 20px;
+    left: 5%;
 }
+
 header img{
+    margin: 0.5% 60% 0 5%;
     width: 4%;
-    height: auto;
+    height: 82%;
 }
-header ul{
-   justify-content: right;
-    display: flex;
-    
+
+header ul {
+    list-style-type: none;
+    display: inline-flex;
 }
-header ul li{
-    padding: 20px;
+
+header ul li {
     list-style: none;
+    font-size: 20px;
+    padding: 10% 10% 5% 0;
 }
-header ul li a{
-    font-family: 'Arial', sans-serif;
-    font-size: 25px;
+
+header ul li a {
     text-decoration: none;
     color: #000;
-
 }
+
 /* Inicio de sesion y Registro */
+
 #principal{
     /* background-image: url(../img/fondo_manzanas.jpg); */
     background-color: #C4DAD2 ;
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+body {
+    margin: 0;
+  }
+
+  video {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 115%;
+    z-index: -1;
+  }
+
+  .manzanas{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 20% 30% 0 25%;
+  }
 
 
 /*formulario de registro*/
@@ -119,3 +150,5 @@ button {
         font-size: 24px;
     }
 }
+
+

@@ -29,7 +29,18 @@ db.connect((err)=>{
 app.post('/crear',(req,res)=>{
     const {nombre,tipo,numero,manzana}=req.body
     console.log(nombre,tipo,numero,manzana)
-    const jhon=``
+    const jhon=`INSERT INTO usuario (Nombres,Tipo_documento,Documento,fk_id_manzana) VALUES (?,?,?,?)`
+    db.query(jhon,[nombre,tipo,numero,manzana],(err,result)=>{
+        if(err){
+            console.error("Error: "+err)
+            res.status(500).send("Pailas")
+            return
+        }
+        else{
+            console.log("Todo bien perro")
+            res.status(200).send("Listo los datos")
+        }
+    })
 })
 
 // Apertura del servidor
