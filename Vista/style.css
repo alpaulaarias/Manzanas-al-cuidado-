@@ -70,6 +70,12 @@ body {
     padding: 20% 30% 0 25%;
   }
 
+.lema{
+    width: 30%;
+    height: auto;
+    margin-left: 33%;
+}
+
 
 /*formulario de registro*/
 .formulario{
