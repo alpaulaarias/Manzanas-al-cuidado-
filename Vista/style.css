@@ -145,6 +145,21 @@ button {
 .back-btn:hover {
     background-color: #c82333;
 }
+/* botones */
+
+.botones{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center ;
+    margin-top: 20%;    
+}
+
+.ss{
+    width: 30%;
+    height: 10%;
+    padding: 2%;
+}
 
 /* Responsive*/
 @media (max-width: 600px) {
