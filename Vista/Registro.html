@@ -9,19 +9,19 @@
 <body id="principal">
 <div class="formulario">
     <div class="form-container">
-        <form id="registroForm" action="https://localhost:3000/crear"  method="POST">
+        <form id="registroForm" action="http://localhost:3000/crear"  method="POST">
             <h2>REGISTRATE</h2>
 
             <!-- Campo Nombre -->
             <div class="input-group">
                 <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" placeholder="Ingresa tu nombre" required>
+                <input type="text" id="nombres" name="nombres" placeholder="Ingresa tu nombre" required>
             </div>
 
             <!-- Selección de Tipo de Documento -->
             <div class="input-group">
                 <label for="tipo-documento">Tipo de Documento</label>
-                <select id="tipo" required>
+                <select id="tipod"  name="tipod" required>
                     <option value="" disabled selected>Selecciona un tipo de documento</option>
                     <option value="CC">Cédula de Ciudadanía</option>
                     <option value="TI">Tarjeta de Identidad</option>
@@ -32,17 +32,18 @@
             <!-- Campo Número de Documento -->
             <div class="input-group">
                 <label for="numero-documento">Número de Documento</label>
-                <input type="text" id="numero" placeholder="Ingresa tu número de documento" required>
+                <input type="text" id="numerod" name="numerod" placeholder="Ingresa tu número de documento" required>
             </div>
 
             <!-- Selección de Manzana -->
             <div class="input-group">
                 <label for="manzana">Manzana</label>
-                <select id="manzana" required>
+                <select id="manzanaa" name="manzanaa" required>
                     <option value="" disabled selected>Selecciona una opción</option>
-                    <option value="BOSA">BOSA</option>
-                    <option value="KENNEDY">KENNEDY</option>
-                    <option value="SUBA">SUBA</option>
+                    <option value="1">Puente Aranda</option>
+                    <option value="2">Bosa</option>
+                    <option value="3">Suba</option>
+                    <option value="4">Kennedy</option>
                 </select>
             </div>
 
