@@ -1,44 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>servicios</title>
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
 </head>
+<body>
+    <h1>BIENVENIDOS<span id="nombreUsuario"></span></h1>
+    <div class="botonesDes">
+    
+    <button id="btnDesplegar">Desplegar servicios</button>
 
-<body id="principal">
 
-    <div class="botones">
 
-        <div class="ss">
-            <label for="listado de servicios "></label>
-            <select id="" required>
-                <option value="" disabled selected>listado de servicios</option>
-                <option value="BOSA">lavar</option>
-                <option value="KENNEDY">vender </option>
-                <option value="SUBA">comer</option>
-            </select>
-        </div>
-        <div class="ss">
-            <label for=""></label>
-            <select id="" required>
-                <option value="" disabled selected>servicios solicitados</option>
-                <option value="BOSA">1</option>
-                <option value="KENNEDY">2</option>
-                <option value="SUBA">3</option>
-            </select>
-        </div>
-        <div class="ss">
-            <label for=""></label>
-            <select id="" required>
-                <option value="" disabled selected>servicios Eliminados</option>
-                <option value="BOSA">1</option>
-                <option value="KENNEDY">2</option>
-                <option value="SUBA">3</option>
-            </select>
-        </div>
+    <div id="servicios-container" style="display: none;">
+        <form id="formularioSelec">
+        <h2>Servicios Del Usuario</h2>
+        <table class="tabla">
+            <thead>
+                <tr>
+                    <th>servicios</th>
+                    <td>holaaa</td>
+                    <td>que hace</td>
+                    <th>seleccionar</th>
+                </tr>
+            </thead>
+            <tbody id="lista"></tbody>
+        </table>
+
+        <input type="datetime-local" id="fechaHora" name="fechaHora" required>
+        <button type="submit">guardar servicios</button>
+    </form>
+    </div>
+    <button id="btnServicios">Desplegar Servios Guardados</button>
+    
+    <div id="guardados-container" style="display: none;">
+        <h2>servicios Guardados</h2>
+        <table id="lista-servicios">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Servicios</th>
+                </tr>
+            </thead>
+            <tbody id="lista-servicios"></tbody>
+        </table>
+    </div>
+
+    <button id="btnCerrar">Cerra Sesion</button>
+</div>
 </body>
-
 </html>
