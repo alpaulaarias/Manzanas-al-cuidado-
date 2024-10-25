@@ -1,22 +1,22 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mysql2 = require('mysql2/promise')
-const path= require('path')
-const moment=require('moment')
-const session=require('express-session')
+const path = require('path')
+const moment = require('moment')
+const session = require('express-session')
 const app = express()
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, '../Vista')));
 
 // configurar la sesion
 app.use(session({
-    secret:'Miapp',
-    resave:false,
-    saveUninitialized:true
+    secret: 'Miapp',
+    resave: false,
+    saveUninitialized: true
 }))
 
 //Conexion bbdd
@@ -30,11 +30,10 @@ const db = mysql2.createPool({
 
 // Registrar usuario
 app.post('/crear', async (req, res) => {
-    const {nombres,tipod,numerod,manzanaa} = req.body
+    const { nombres, tipod, numerod, manzanaa } = req.body
     try {
         //verificar el usurio
-        const conect= await mysql2.createConnection(db)
-        const [veri]= await conect.execute('SELECT * FROM usuario WHERE Tipo_documento=? AND Documento=?', [tipod,numerod])
+        const [veri] = await db.query('SELECT * FROM usuario WHERE Tipo_documento=? AND Documento=?', [tipod, numerod])
 
         if (veri.length > 0) {
             res.status(409).send(`
@@ -46,8 +45,8 @@ app.post('/crear', async (req, res) => {
                 </script>
                 `)
         }
-        else{
-            await conect.execute('INSERT INTO usuario (Nombres,Tipo_documento,Documento,fk_id_manzana) VALUES (?,?,?,?)',[nombres, tipod, numerod,manzanaa])
+        else {
+            await db.query('INSERT INTO usuario (Nombres,Tipo_documento,Documento,fk_id_manzana) VALUES (?,?,?,?)', [nombres, tipod, numerod, manzanaa])
             res.status(201).send(`
                 <script>
                 window.onload=function(){
@@ -56,9 +55,7 @@ app.post('/crear', async (req, res) => {
                 }
                 </script>
                 `)
-                await conect.end()
         }
-        await conect.end()
     }
     catch (error) {
         console.error('Error en el servidor:', error)
@@ -66,18 +63,35 @@ app.post('/crear', async (req, res) => {
     }
 })
 
-app.post('/iniciar', async (req,res)=>{
-    const {tipod,numerod}=req.body
-    try{
-        const conect=await mysql2.createConnection(db)
-        const [datos]= await conect.execute('SELECT * FROM usuario WHERE Tipo_documento=? AND Documento=?', [tipod,numerod])
-        console.log(datos)
+app.post('/iniciar', async (req, res) => {
+    try {
+
+        const { tipod, numerod } = req.body
+        const [datos] = await db.query('SELECT * FROM usuario WHERE Tipo_documento=? AND Documento=?', [tipod, numerod])
+        
+        if (datos.length > 0) {
+            req.session.usuario=datos[0].Nombres
+            res.sendFile(path.join(__dirname, '../Vista/botones.html'))
+        }
+    } catch (error) {
+        console.error('Error en el servidor:', error)
+        res.status(500).send('Error en el servidor');
     }
-    if (datos.length>0){
-        const [man]=
-    res.sendFile(path.join(__dirname, 'botones.html'))
-}
 })
+
+
+
+app.get('/obtener-usuario',(req,res)=>{
+    const usuario=req.session.usuario
+    
+    if(usuario){
+        res.json(usuario)
+    }
+    else{
+        res.status(401).send('Usuario no autenticado')
+    }
+})
+
 // Apertura del servidor
 app.listen(3000, () => {
     console.log(`Servidor Node.js escuchando`)
