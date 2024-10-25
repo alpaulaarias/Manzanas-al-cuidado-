@@ -11,6 +11,7 @@
 <body id="principal">
 
     <div class="botones">
+        <h1>Bienvenid@ <span id="nombreUsuario"></span> </h1>
 
         <div class="ss">
             <label for="listado de servicios "></label>
@@ -39,6 +40,29 @@
                 <option value="SUBA">3</option>
             </select>
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded',()=>{
+                // Obtener el nombre del usuario
+                const xhrNombreUsuario=new XMLHttpRequest()
+                xhrNombreUsuario.open('GET','/obtener-usuario',true)
+                xhrNombreUsuario.onreadystatechange=function(){
+                    if( xhrNombreUsuario.readyState === 4 ) {
+                        if (xhrNombreUsuario.status === 200) {
+                            console.log(xhrNombreUsuario);
+                            
+                            const usuario=JSON.parse(xhrNombreUsuario.responseText)
+                            document.getElementById('nombreUsuario').textContent=usuario
+                            
+                        } else {
+                        console.error('No se pudo poner el usuario')
+                        }
+                    }
+                }
+                xhrNombreUsuario.send()
+            })
+    
+         </script>
+    
 </body>
 
 </html>

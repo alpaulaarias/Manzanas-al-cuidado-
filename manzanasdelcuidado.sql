@@ -22,7 +22,8 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-
+CREATE DATABASE manzanasdelcuidado;
+use manzanasdelcuidado;
 --
 -- Estructura de tabla para la tabla `manzanas`
 --
@@ -83,7 +84,7 @@ CREATE TABLE `solicitudes` (
 CREATE TABLE `usuario` (
   `id_mujer` int(5) NOT NULL,
   `Tipo_documento` varchar(30) DEFAULT NULL,
-  `Documento` int(10) DEFAULT NULL,
+  `Documento` varchar(20) DEFAULT NULL,
   `Nombres` varchar(30) DEFAULT NULL,
   `Apellidos` varchar(30) DEFAULT NULL,
   `Telefono` int(10) DEFAULT NULL,
@@ -186,3 +187,9 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO manzanas(Nombre_manzana) VALUES 
+('Puente Aranda'),
+('Bosa'),
+('Suba'),
+('Kennedy');
