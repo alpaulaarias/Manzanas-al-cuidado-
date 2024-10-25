@@ -41,20 +41,17 @@
             </select>
         </div>
         <script>
+            // Obtener el nombre del usuario
             document.addEventListener('DOMContentLoaded',()=>{
-                // Obtener el nombre del usuario
                 const xhrNombreUsuario=new XMLHttpRequest()
                 xhrNombreUsuario.open('GET','/obtener-usuario',true)
                 xhrNombreUsuario.onreadystatechange=function(){
                     if( xhrNombreUsuario.readyState === 4 ) {
                         if (xhrNombreUsuario.status === 200) {
-                            console.log(xhrNombreUsuario);
-                            
                             const usuario=JSON.parse(xhrNombreUsuario.responseText)
                             document.getElementById('nombreUsuario').textContent=usuario
-                            
                         } else {
-                        console.error('No se pudo poner el usuario')
+                            console.error('No se pudo poner el usuario')
                         }
                     }
                 }

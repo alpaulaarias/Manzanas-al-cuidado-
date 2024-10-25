@@ -72,6 +72,8 @@ app.post('/iniciar', async (req, res) => {
         if (datos.length > 0) {
             req.session.usuario=datos[0].Nombres
             res.sendFile(path.join(__dirname, '../Vista/botones.html'))
+        }else{
+            res.sendFile(path.join(__dirname, '../Vista/sesion.html')) 
         }
     } catch (error) {
         console.error('Error en el servidor:', error)

@@ -193,3 +193,22 @@ INSERT INTO manzanas(Nombre_manzana) VALUES
 ('Bosa'),
 ('Suba'),
 ('Kennedy');
+
+INSERT INTO `servicios` (`id_servicio`, `Nombre_servicio`, `Tipo_servicio`, `Descripcion`) VALUES
+(1, 'Mantenimiento', 'Preventivo', 'Revisión y ajuste de equipos cada 6 meses'),
+(2, 'Instalación', 'Eléctrica', 'Instalación de cableado y dispositivos eléctricos'),
+(3, 'Reparación', 'Electrónica', 'Reparación de circuitos y componentes electrónicos'),
+(4, 'Consultoría', 'Tecnológica', 'Asesoría en la implementación de tecnologías de la información'),
+(5, 'Desarrollo', 'Software', 'Desarrollo de aplicaciones web a medida');
+
+INSERT INTO manzanas_servicios (fk_id_manzana,fk_id_servicio) VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(2,1),(2,2),(2,3),(2,4),(2,5),(3,1),(3,2),(3,3),(3,4),(3,5),(4,1),(4,2),(4,3),(4,4),(4,5);
+
+SELECT *
+ 
+FROM manzanas INNER JOIN manzanas_servicios 
+ON manzanas.id_manzana =manzanas_servicios.fk_id_manzana 
+INNER JOIN servicios
+ON manzanas_servicios.fk_id_servicio=servicios.id_servicio
+
+
+
