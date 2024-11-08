@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,50 +12,72 @@
 
     <div class="botones">
         <h1>Bienvenid@ <span id="nombreUsuario"></span> </h1>
+        <!-- Contenedor para mostrar los servicios del usuario -->
+            <form id="formularioSeleccionServicio"
+                <h2>Servicios del Usuario</h2>
+                <table id="tabla-servicios">
+                    <thead>
+                        <tr>
+                            <th>Nombre de Servicio</th>
+                            <th>Descripción de Servicio</th>
+                            <th>Agregar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-servicios"></tbody>
+                </table>
 
-            <!-- Contenedor para mostrar los servicios del usuario -->  
-            <div id="servicios-container" style="display: none;">
-                <form id="formularioSeleccionServicio">
-                    <h2>Servicios del Usuario</h2>
-                    <table id="tabla-servicios">
-                        <thead>
-                            <tr>
-                                <th>Servicio</th>
-                                <th>Seleccionar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="lista-servicios"></tbody>
-                    </table>
-    
-                    <input type="datetime-local" id="fechaHora" name="fechaHora" required>
-                    <button type="submit">Guardar Servicios</button>
-                </form>
-             </div>
-        </div>
+                <input type="datetime-local" id="fechaHora" name="fechaHora" required>
+                <button type="submit">Guardar Servicios</button>
+            </form>
+    </div>
 
-        
-        <script>
-            // Obtener el nombre del usuario
-            document.addEventListener('DOMContentLoaded',()=>{
-                const xhrNombreUsuario=new XMLHttpRequest()
-                xhrNombreUsuario.open('GET','/obtener-usuario',true)
-                xhrNombreUsuario.onreadystatechange=function(){
-                    console.log(xhrNombreUsuario);
-                    
-                    if( xhrNombreUsuario.readyState === 4 ) {
-                        if (xhrNombreUsuario.status === 200) {
-                            const usuario=JSON.parse(xhrNombreUsuario.responseText)
-                            document.getElementById('nombreUsuario').textContent=usuario
-                        } else {
-                            console.error('No se pudo poner el usuario')
-                        }
+
+    <script>
+        // Obtener el nombre del usuario
+        document.addEventListener('DOMContentLoaded', () => {
+            const xhrNombreUsuario = new XMLHttpRequest()
+            xhrNombreUsuario.open('GET', '/obtener-usuario', true)
+            xhrNombreUsuario.onreadystatechange = function () {
+                console.log(xhrNombreUsuario);
+
+                if (xhrNombreUsuario.readyState === 4) {
+                    if (xhrNombreUsuario.status === 200) {
+                        const usuario = JSON.parse(xhrNombreUsuario.responseText)
+                        document.getElementById('nombreUsuario').textContent = usuario
+                    } else {
+                        console.error('No se pudo poner el usuario')
                     }
                 }
-                xhrNombreUsuario.send()
-                
+            }
+            xhrNombreUsuario.send()
+        })
+
+        fetch('http://localhost:3000/obtenerServiciosManzana')
+            .then(datos => datos.json())
+            .then(servicios => {
+                const tabla = document.getElementById('lista-servicios')
+
+                servicios.forEach(servicio => {
+                    console.log(servicio.Nombre_servicio);
+                    const fila = document.createElement('tr')
+
+                    const nombre = document.createElement('td')
+                    nombre.textContent = servicio.Nombre_servicio
+                    fila.appendChild(nombre)
+
+                    const descripcion = document.createElement('td')
+                    descripcion.textContent = servicio.Descripcion
+                    fila.appendChild(descripcion)
+
+                    tabla.appendChild(fila)
+                });
+
+
+
             })
-    
-         </script>
-    
+
+    </script>
+
 </body>
+
 </html>

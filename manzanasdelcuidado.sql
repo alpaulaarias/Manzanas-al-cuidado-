@@ -203,12 +203,7 @@ INSERT INTO `servicios` (`id_servicio`, `Nombre_servicio`, `Tipo_servicio`, `Des
 
 INSERT INTO manzanas_servicios (fk_id_manzana,fk_id_servicio) VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(2,1),(2,2),(2,3),(2,4),(2,5),(3,1),(3,2),(3,3),(3,4),(3,5),(4,1),(4,2),(4,3),(4,4),(4,5);
 
-SELECT *
- 
-FROM manzanas INNER JOIN manzanas_servicios 
-ON manzanas.id_manzana =manzanas_servicios.fk_id_manzana 
-INNER JOIN servicios
-ON manzanas_servicios.fk_id_servicio=servicios.id_servicio
+SELECT s.Nombre_servicio, s.Descripcion FROM manzanas  m INNER JOIN manzanas_servicios ms ON m.id_manzana = ms.fk_id_manzana INNER JOIN servicios s ON ms.fk_id_servicio = s.id_servicio WHERE m.id_manzana = 1 
 
 
 
