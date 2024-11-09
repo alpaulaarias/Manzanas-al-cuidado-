@@ -96,7 +96,7 @@ app.get('/obtener-usuario',(req,res)=>{
 
 app.get('/obtenerServiciosManzana', async (req, res) =>{
     try {
-        const [datos] = await db.query('SELECT s.Nombre_servicio, s.Descripcion FROM manzanas  m INNER JOIN manzanas_servicios ms ON m.id_manzana = ms.fk_id_manzana INNER JOIN servicios s ON ms.fk_id_servicio = s.id_servicio WHERE m.id_manzana = 1 ')
+        const [datos] = await db.query('SELECT s.id_servicio,s.Nombre_servicio, s.Descripcion FROM manzanas  m INNER JOIN manzanas_servicios ms ON m.id_manzana = ms.fk_id_manzana INNER JOIN servicios s ON ms.fk_id_servicio = s.id_servicio WHERE m.id_manzana = 1 ')
         if (datos.length > 0) {
             res.json(datos)
         }else {
@@ -108,7 +108,13 @@ app.get('/obtenerServiciosManzana', async (req, res) =>{
         res.status(500).send('Error en el servidor');
     }
 })
-
+//Enviar servicios 
+app.post('/guardar-servicios-usuario',async (req,res)=>{
+    const usuario=req.session.usuario
+    const Documento=req.session.Documento
+    const {servicios,fechaHora}=req.body
+    console.log(servicios,fechaHora)
+})
 // Apertura del servidor
 app.listen(3000, () => {
     console.log(`Servidor Node.js escuchando`)
