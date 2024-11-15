@@ -13,22 +13,22 @@
     <div class="botones">
         <h1>Bienvenid@ <span id="nombreUsuario"></span> </h1>
         <!-- Contenedor para mostrar los servicios del usuario -->
-            <form id="formularioSeleccionServicio"
-                <h2>Servicios del Usuario</h2>
-                <table id="tabla-servicios">
-                    <thead>
-                        <tr>
-                            <th>Nombre de Servicio</th>
-                            <th>Descripción de Servicio</th>
-                            <th>Agregar</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lista-servicios"></tbody>
-                </table>
+        <h2>Servicios del Usuario</h2>
+        <form id="formularioSeleccionServicio" onsubmit="guardarServicio(event)"> 
+            <table id="tabla-servicios">
+                <thead>
+                    <tr>
+                        <th>Nombre de Servicio</th>
+                        <th>Descripción de Servicio</th>
+                        <th>Agregar</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-servicios"></tbody>
+            </table>
 
-                <input type="datetime-local" id="fechaHora" name="fechaHora" required>
-                <button type="submit">Guardar Servicios</button>
-            </form>
+            <input type="datetime-local" id="fechaHora" name="fechaHora" required>
+            <button type="submit">Guardar Servicios</button>
+        </form>
     </div>
 
 
@@ -38,7 +38,6 @@
             const xhrNombreUsuario = new XMLHttpRequest()
             xhrNombreUsuario.open('GET', '/obtener-usuario', true)
             xhrNombreUsuario.onreadystatechange = function () {
-                console.log(xhrNombreUsuario);
 
                 if (xhrNombreUsuario.readyState === 4) {
                     if (xhrNombreUsuario.status === 200) {
@@ -56,10 +55,8 @@
             .then(datos => datos.json())
             .then(servicios => {
                 const tabla = document.getElementById('lista-servicios')
-                console.log(servicios);
-                
+
                 servicios.forEach(servicio => {
-                    console.log(servicio.Nombre_servicio);
                     const fila = document.createElement('tr')
 
                     const nombre = document.createElement('td')
@@ -72,6 +69,7 @@
 
                     const accion = document.createElement('td')
                     const checkbox = document.createElement('input')
+                    checkbox.name = 'servicios'
                     checkbox.type = 'checkbox'
                     checkbox.value = servicio.id_servicio
 
@@ -80,44 +78,32 @@
 
                     tabla.appendChild(fila)
                 });
-                
-                // Evento para enviar los servicios seleccionados 
-                
-                const formularioSeleccionServicio=document.getElementById(
-                    'formularioSeleccionServicio');
-                formularioSeleccionServicio.addEventListener('submit',async(event)=>{
-                    event.preventDefault();
-                    const serviciosSeleccionados=Array.from(
-                        formularioSeleccionServicio.elements['servicios']
-                    )
-                    .filter((checkbox) =>checkbox.checked)
-                    .map((checkbox) => checkbox.value);
-                    const fh = formularioSeleccionServicio.elements['fecha_hora'].value;
 
-                    const xhguardarServicio = new XMLHttpRequest();
-                    xhguardarServicio.open("POST", "guardar-servicios", true);
-                    xhguardarServicio.setRequestHeader("Content-Type", "application/json");
-                    xhguardarServicio.onreadystatechange = function(){
-                        if (
-                            xhguardarServicio.readyState === 4 &&
-                            xhguardarServicio.status === 200
-                        ) {
-                            alert("Servicios Guardados");
-                            windows.location.reload();
-                        } else {
-                            //Mensaje de error solo si falla la solicitud
-                            console.error(
-                                "No se pueden cargar los servivios. Estado",
-                                xhguardarServicio.status
-                            );
-                        }
-                    };
-                    xhguardarServicio.send(JSON.stringify({
-                        servicios: serviciosSeleccionados, 
-                        fecha_hora: fh
-                    }));
-                });
             });
+
+        function guardarServicio(event) {
+            event.preventDefault()
+            const formularioSeleccionServicio = document.getElementById('formularioSeleccionServicio');
+            const form = new FormData(formularioSeleccionServicio)
+
+            const servicios = form.getAll('servicios')
+            const fecha = form.get('fechaHora')
+            
+            fetch('http://localhost:3000/guardar-servicios-usuario', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({servicios:servicios, fecha: fecha})
+            })
+            .then(respuesta => respuesta.json())
+            .then(data => {
+                
+                console.log(data);
+                
+
+            });
+            
+        }
+
 
     </script>
 

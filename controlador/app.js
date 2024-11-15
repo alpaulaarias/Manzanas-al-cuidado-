@@ -110,10 +110,27 @@ app.get('/obtenerServiciosManzana', async (req, res) =>{
 })
 //Enviar servicios 
 app.post('/guardar-servicios-usuario',async (req,res)=>{
+    console.log(req.session.usuario);
+    
     const usuario=req.session.usuario
     const Documento=req.session.Documento
-    const {servicios,fechaHora}=req.body
-    console.log(servicios,fechaHora)
+    const {servicios,fecha}=req.body
+
+    servicios.forEach(async idServicio => {
+        await db.query('INSERT INTO solicitudes(Fecha_asistencia, fk_id_mujer, fk_id_servicio) VALUES(?,?,?)',[fecha, usuario, idServicio])
+        
+    });
+    console.log(servicios,fecha)
+    res.json(servicios)
+})
+
+app.get('/obtenerServiciosUsuario', async (req, res) => {
+    try {
+        
+    } catch (error) {
+        console.error('Error en el servidor:', error)
+        res.status(500).send('Error en el servidor');
+    }
 })
 // Apertura del servidor
 app.listen(3000, () => {

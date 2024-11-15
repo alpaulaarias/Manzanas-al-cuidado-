@@ -225,7 +225,7 @@ button:hover {
 }
 
 /* Estilo de listap (aun no esta terminado)*/
-#servicios-container, #guardados-container {
+/* #servicios-container, #guardados-container {
     background-color: #fff; 
     padding: 20px;
     
@@ -234,7 +234,7 @@ button:hover {
     width: 100%;
     max-width: 600px; 
     display: none; 
-}
+} */
 
 /* Estilo para las tablas */
 table {
