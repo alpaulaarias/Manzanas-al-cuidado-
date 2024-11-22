@@ -152,7 +152,7 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center ;
-    margin-top: 20%;    
+    margin-top: 5%;    
 }
 
 .ss{
@@ -206,11 +206,12 @@ button {
     color: white;
     padding: 10px 20px;  
     font-size: 16px; 
-    margin: 23px 25%; 
+   
     cursor: pointer; 
     border-radius: 5px;
     border: 3px solid #000000;
     border-radius: 5px;
+    
     
 }
 button:hover {

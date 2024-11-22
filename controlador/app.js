@@ -4,6 +4,7 @@ const mysql2 = require('mysql2/promise')
 const path = require('path')
 const moment = require('moment')
 const session = require('express-session')
+const { log } = require('console')
 const app = express()
 
 // Middleware
@@ -24,7 +25,7 @@ const db = mysql2.createPool({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'manzanasdelcuidado'
+    database: 'manzanasdelcuidado2'
 })
 
 
@@ -68,7 +69,6 @@ app.post('/iniciar', async (req, res) => {
 
         const { tipod, numerod } = req.body
         const [datos] = await db.query('SELECT * FROM usuario WHERE Tipo_documento=? AND Documento=?', [tipod, numerod])
-        
         if (datos.length > 0) {
             req.session.usuario=datos[0].Nombres
             res.sendFile(path.join(__dirname, '../Vista/botones.html'))
@@ -110,23 +110,36 @@ app.get('/obtenerServiciosManzana', async (req, res) =>{
 })
 //Enviar servicios 
 app.post('/guardar-servicios-usuario',async (req,res)=>{
-    console.log(req.session.usuario);
+    try {
+        const usuario=req.session.usuario
+        const {servicios,fecha}=req.body
     
-    const usuario=req.session.usuario
-    const Documento=req.session.Documento
-    const {servicios,fecha}=req.body
+        const [datosUsuario] = await db.query(' SELECT id_mujer FROM usuario WHERE Nombres= ?',[usuario])
+        const idUsuario = datosUsuario[0].id_mujer
+        servicios.forEach(async idServicio => {
+            console.log(idServicio);
+            
+            const resultado = await db.query('INSERT INTO solicitudes(Fecha_asistencia, fk_id_mujer, fk_id_servicio) VALUES(?,?,?)',[fecha, idUsuario, idServicio]) 
+            console.log(resultado);
+            
+        });
+        res.status(200).json({operacion: ok})
+    } catch (error) {
+        console.error('Error en el servidor:', error)
+        res.status(500).send('Error en el servidor');       
+    }
 
-    servicios.forEach(async idServicio => {
-        await db.query('INSERT INTO solicitudes(Fecha_asistencia, fk_id_mujer, fk_id_servicio) VALUES(?,?,?)',[fecha, usuario, idServicio])
-        
-    });
-    console.log(servicios,fecha)
-    res.json(servicios)
 })
 
 app.get('/obtenerServiciosUsuario', async (req, res) => {
     try {
-        
+        const usuario=req.session.usuario
+
+        const [datosUsuario] = await db.query(' SELECT id_mujer FROM usuario WHERE Nombres= ?',[usuario])
+        const idUsuario = datosUsuario[0].id_mujer
+        const [servicios]=await db.query("SELECT se.Nombre_servicio, se.Descripcion, s.Fecha_asistencia, se.Tipo_servicio FROM usuario  u INNER JOIN solicitudes s ON u.id_mujer = s.fk_id_mujer INNER JOIN servicios se ON s.fk_id_servicio = se.id_servicio WHERE u.id_mujer =?", [idUsuario])
+        res.status(200).json(servicios)
+
     } catch (error) {
         console.error('Error en el servidor:', error)
         res.status(500).send('Error en el servidor');

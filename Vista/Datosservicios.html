@@ -13,22 +13,23 @@
     <div class="botones">
         <h1>Bienvenid@ <span id="nombreUsuario"></span> </h1>
         <!-- Contenedor para mostrar los servicios del usuario -->
-        <h2>Servicios del Usuario</h2>
+        <h2>Servicios Seleccionados</h2>
         <form id="formularioSeleccionServicio" onsubmit="guardarServicio(event)"> 
             <table id="tabla-servicios">
                 <thead>
                     <tr>
                         <th>Nombre de Servicio</th>
                         <th>Descripción de Servicio</th>
-                        <th>Agregar</th>
+                        <th>Eliminar</th>
                     </tr>
                 </thead>
-                <tbody id="lista-servicios"></tbody>
+                <tbody id="servicio-usuario"></tbody>
+
             </table>
 
-            <input type="datetime-local" id="fechaHora" name="fechaHora" required>
-            <button type="submit">Guardar Servicios</button>
-            <button type="submit"><a href="./Datosservicios.html">Mis servicios</a></button>
+            
+            <button type="submit"><a href="./botones.html">Atras</a></button>
+            
         </form>
     </div>
 
@@ -52,10 +53,11 @@
             xhrNombreUsuario.send()
         })
 
-        fetch('http://localhost:3000/obtenerServiciosManzana')
+        fetch('http://localhost:3000/obtenerServiciosUsuario')
             .then(datos => datos.json())
             .then(servicios => {
-                const tabla = document.getElementById('lista-servicios')
+                console.log(servicios)
+                const tabla = document.getElementById('servicio-usuario')
 
                 servicios.forEach(servicio => {
                     const fila = document.createElement('tr')
@@ -69,12 +71,12 @@
                     fila.appendChild(descripcion)
 
                     const accion = document.createElement('td')
-                    const checkbox = document.createElement('input')
-                    checkbox.name = 'servicios'
-                    checkbox.type = 'checkbox'
-                    checkbox.value = servicio.id_servicio
+                    const button = document.createElement('input')
+                    button.name = 'servicios'
+                    button.type = 'button'
+                    button.value = servicio.id_servicio
 
-                    accion.appendChild(checkbox)
+                    accion.appendChild(button)
                     fila.appendChild(accion)
 
                     tabla.appendChild(fila)

@@ -1,6 +1,6 @@
-CREATE DATABASE manzanasdelcuidado;
+CREATE DATABASE manzanasdelcuidado2;
 
-USE manzanasdelcuidado;
+USE manzanasdelcuidado2;
 
 CREATE TABLE Manzanas(
     id_manzana INT(5) PRIMARY KEY AUTO_INCREMENT,
@@ -81,3 +81,9 @@ INSERT INTO `manzanas_servicios` (`fk_id_manzana`, `fk_id_servicio`) VALUES
 (4, 3),
 (4, 4),
 (4, 5);
+
+SELECT Nombre_servicio, Tipo_servicio, Descripcion FROM Usuario INNER JOIN 
+
+SELECT se.Nombre_servicio, se.Descripcion, se.Tipo_servicio FROM usuario  u INNER JOIN solicitudes s ON u.id_mujer = s.fk_id_mujer INNER JOIN servicios se ON s.fk_id_servicio = se.id_servicio;
+
+select * from solicitudes
