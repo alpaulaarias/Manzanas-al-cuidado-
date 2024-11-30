@@ -29,32 +29,15 @@
             </table>
 
             
-            <button type="submit"><a href="./botones.html">Atras</a></button>
             
         </form>
+        <a href="botones.html"><button>Atrás</button></a>
     </div>
 
 
     <script>
 
         obtenerServicios()
-        // // Obtener el nombre del usuario
-        // document.addEventListener('DOMContentLoaded', () => {
-        //     const xhrNombreUsuario = new XMLHttpRequest()
-        //     xhrNombreUsuario.open('GET', '/obtener-usuario', true)
-        //     xhrNombreUsuario.onreadystatechange = function () {
-
-        //         if (xhrNombreUsuario.readyState === 4) {
-        //             if (xhrNombreUsuario.status === 200) {
-        //                 const usuario = JSON.parse(xhrNombreUsuario.responseText)
-        //                 document.getElementById('nombreUsuario').textContent = usuario
-        //             } else {
-        //                 console.error('No se pudo poner el usuario')
-        //             }
-        //         }
-        //     }
-        //     xhrNombreUsuario.send()
-        // })
         function obtenerServicios() {
             fetch('http://localhost:3000/obtenerServiciosUsuario')
             .then(datos => datos.json())
@@ -112,7 +95,7 @@
             fetch('http://localhost:3000/eliminarServicioUsuario', {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({servicios:servicio.id_solicitud})
+                body: JSON.stringify({servicio:servicio.id_solicitud})
             })
             .then(respuesta => { 
                 alert('Servicio eliminado')})

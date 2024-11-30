@@ -117,11 +117,7 @@ app.post('/guardar-servicios-usuario',async (req,res)=>{
         const [datosUsuario] = await db.query(' SELECT id_mujer FROM usuario WHERE Nombres= ?',[usuario])
         const idUsuario = datosUsuario[0].id_mujer
         servicios.forEach(async idServicio => {
-            console.log(idServicio);
-            
             const resultado = await db.query('INSERT INTO solicitudes(Fecha_asistencia, fk_id_mujer, fk_id_servicio) VALUES(?,?,?)',[fecha, idUsuario, idServicio]) 
-            console.log(resultado);
-            
         });
         res.status(200).json({operacion: 'ok'})
     } catch (error) {
