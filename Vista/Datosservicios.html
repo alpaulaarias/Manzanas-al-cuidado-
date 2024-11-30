@@ -88,24 +88,6 @@
         }
 
 
-        function guardarServicio(event) {
-            event.preventDefault()
-            const formularioSeleccionServicio = document.getElementById('formularioSeleccionServicio');
-            const form = new FormData(formularioSeleccionServicio)
-
-            const servicios = form.getAll('servicios')
-            const fecha = form.get('fechaHora')
-            
-            fetch('http://localhost:3000/guardar-servicios-usuario', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({servicios:servicios, fecha: fecha})
-            })
-            .then(respuesta => alert('Servicios guardados'))
-            .catch(err => alert('Error al guardar servicios'))
-            
-        }
-
         function eliminarServicio(servicio) {
             console.log(servicio);
             

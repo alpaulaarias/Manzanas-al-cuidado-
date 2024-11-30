@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="principal">
+    <form id="formularioUsuarios">
+        <table>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Nombre completo</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Dirección</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tablaUsuarios"></tbody>
+        </table>
+    </form>
+    <script>
+        obtenerUsuarios()
+        function obtenerUsuarios() {
+            fetch('http://localhost:3000/obtenerUsuarios')
+            .then(res=> res.json())
+            .then(datos=>{
+                const tabla=document.getElementById('tablaUsuarios')
+                tabla.innerHTML="" 
+                datos.forEach(usuario => {
+                    const fila=document.createElement('tr')
+
+                    const celdaid=document.createElement('td')
+                    celdaid.textContent=usuario.id_mujer
+                    fila.appendChild(celdaid)
+
+                    // nombre,telefono,email,direccion
+                    const celdaNombre=document.createElement('td')
+                    celdaNombre.textContent=usuario.Nombres
+                    fila.appendChild(celdaNombre)
+
+                    const celdaTelefono=document.createElement('td')
+                    celdaTelefono.textContent=usuario.Telefono
+                    fila.appendChild(celdaTelefono)
+
+                    const celdaEmail=document.createElement('td')
+                    celdaEmail.textContent=usuario.Email
+                    fila.appendChild(celdaEmail)
+
+                    const celdaDireccion=document.createElement('td')
+                    celdaDireccion.textContent=usuario.Direccion_mujer
+                    fila.appendChild(celdaDireccion)
+
+                    const celdaAccion=document.createElement('td')
+                    crearBotones(celdaAccion, fila, usuario)
+                    
+
+                    tabla.appendChild(fila)
+                });
+            })
+            
+        }
+
+        function crearBotones(celdaAccion, fila, usuario) {
+            const botonEliminar=document.createElement('button')
+            botonEliminar.textContent='Eliminar'
+            celdaAccion.appendChild(botonEliminar)
+
+            const botonActualizar=document.createElement('button')
+            botonActualizar.textContent='Actualizar'
+            celdaAccion.appendChild(botonActualizar)
+
+            fila.appendChild(celdaAccion)
+
+    
+            
+        }
+    </script>
+</body>
+</html>
