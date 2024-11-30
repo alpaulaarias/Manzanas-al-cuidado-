@@ -123,7 +123,7 @@ app.post('/guardar-servicios-usuario',async (req,res)=>{
             console.log(resultado);
             
         });
-        res.status(200).json({operacion: ok})
+        res.status(200).json({operacion: 'ok'})
     } catch (error) {
         console.error('Error en el servidor:', error)
         res.status(500).send('Error en el servidor');       
@@ -137,7 +137,7 @@ app.get('/obtenerServiciosUsuario', async (req, res) => {
 
         const [datosUsuario] = await db.query(' SELECT id_mujer FROM usuario WHERE Nombres= ?',[usuario])
         const idUsuario = datosUsuario[0].id_mujer
-        const [servicios]=await db.query("SELECT se.Nombre_servicio, se.Descripcion, s.Fecha_asistencia, se.Tipo_servicio FROM usuario  u INNER JOIN solicitudes s ON u.id_mujer = s.fk_id_mujer INNER JOIN servicios se ON s.fk_id_servicio = se.id_servicio WHERE u.id_mujer =?", [idUsuario])
+        const [servicios]=await db.query("SELECT * FROM usuario  u INNER JOIN solicitudes s ON u.id_mujer = s.fk_id_mujer INNER JOIN servicios se ON s.fk_id_servicio = se.id_servicio WHERE u.id_mujer =?", [idUsuario])
         res.status(200).json(servicios)
 
     } catch (error) {
@@ -145,6 +145,20 @@ app.get('/obtenerServiciosUsuario', async (req, res) => {
         res.status(500).send('Error en el servidor');
     }
 })
+app.delete('/eliminarServicioUsuario',  async (req, res) => {
+    try {
+        const {servicio}=req.body
+        console.log (servicio)
+
+        const query='delete from solicitudes where fk_id_servicio=?'
+        const [resu] = await db.query(query,[servicio])
+        res.status(200).json({operacion:'se elimino servicio'})
+
+    } catch (error) {
+        console.error('Error en el servidor:', error)
+        res.status(500).send('Error en el servidor');   
+    }
+}) 
 // Apertura del servidor
 app.listen(3000, () => {
     console.log(`Servidor Node.js escuchando`)

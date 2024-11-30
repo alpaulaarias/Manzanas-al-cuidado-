@@ -87,3 +87,5 @@ SELECT Nombre_servicio, Tipo_servicio, Descripcion FROM Usuario INNER JOIN
 SELECT se.Nombre_servicio, se.Descripcion, se.Tipo_servicio FROM usuario  u INNER JOIN solicitudes s ON u.id_mujer = s.fk_id_mujer INNER JOIN servicios se ON s.fk_id_servicio = se.id_servicio;
 
 select * from solicitudes
+
+delete from solicitudes where fk_id_servicio=13

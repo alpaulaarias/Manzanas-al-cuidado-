@@ -12,9 +12,10 @@
 
     <div class="botones">
         <h1>Bienvenid@ <span id="nombreUsuario"></span> </h1>
+        
         <!-- Contenedor para mostrar los servicios del usuario -->
         <h2>Servicios Seleccionados</h2>
-        <form id="formularioSeleccionServicio" onsubmit="guardarServicio(event)"> 
+        <form id="formularioSeleccionServicio"> 
             <table id="tabla-servicios">
                 <thead>
                     <tr>
@@ -35,25 +36,27 @@
 
 
     <script>
-        // Obtener el nombre del usuario
-        document.addEventListener('DOMContentLoaded', () => {
-            const xhrNombreUsuario = new XMLHttpRequest()
-            xhrNombreUsuario.open('GET', '/obtener-usuario', true)
-            xhrNombreUsuario.onreadystatechange = function () {
 
-                if (xhrNombreUsuario.readyState === 4) {
-                    if (xhrNombreUsuario.status === 200) {
-                        const usuario = JSON.parse(xhrNombreUsuario.responseText)
-                        document.getElementById('nombreUsuario').textContent = usuario
-                    } else {
-                        console.error('No se pudo poner el usuario')
-                    }
-                }
-            }
-            xhrNombreUsuario.send()
-        })
+        obtenerServicios()
+        // // Obtener el nombre del usuario
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     const xhrNombreUsuario = new XMLHttpRequest()
+        //     xhrNombreUsuario.open('GET', '/obtener-usuario', true)
+        //     xhrNombreUsuario.onreadystatechange = function () {
 
-        fetch('http://localhost:3000/obtenerServiciosUsuario')
+        //         if (xhrNombreUsuario.readyState === 4) {
+        //             if (xhrNombreUsuario.status === 200) {
+        //                 const usuario = JSON.parse(xhrNombreUsuario.responseText)
+        //                 document.getElementById('nombreUsuario').textContent = usuario
+        //             } else {
+        //                 console.error('No se pudo poner el usuario')
+        //             }
+        //         }
+        //     }
+        //     xhrNombreUsuario.send()
+        // })
+        function obtenerServicios() {
+            fetch('http://localhost:3000/obtenerServiciosUsuario')
             .then(datos => datos.json())
             .then(servicios => {
                 console.log(servicios)
@@ -71,11 +74,10 @@
                     fila.appendChild(descripcion)
 
                     const accion = document.createElement('td')
-                    const button = document.createElement('input')
+                    const button = document.createElement('button')
                     button.name = 'servicios'
-                    button.type = 'button'
-                    button.value = servicio.id_servicio
-
+                    button.textContent="eliminar"
+                    button.onclick=()=> eliminarServicio(servicio)
                     accion.appendChild(button)
                     fila.appendChild(accion)
 
@@ -83,6 +85,8 @@
                 });
 
             });
+        }
+
 
         function guardarServicio(event) {
             event.preventDefault()
@@ -99,6 +103,21 @@
             })
             .then(respuesta => alert('Servicios guardados'))
             .catch(err => alert('Error al guardar servicios'))
+            
+        }
+
+        function eliminarServicio(servicio) {
+            console.log(servicio);
+            
+            fetch('http://localhost:3000/eliminarServicioUsuario', {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({servicios:servicio.id_solicitud})
+            })
+            .then(respuesta => { 
+                alert('Servicio eliminado')})
+            .catch(err => alert('Error al eliminar el servicio'))
+
             
         }
 
