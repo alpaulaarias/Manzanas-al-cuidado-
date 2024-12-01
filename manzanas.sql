@@ -50,8 +50,12 @@ INSERT INTO `manzanas` (`id_manzana`, `Nombre_manzana`) VALUES
 (3, 'Suba'),
 (4, 'Kennedy');
 
-INSERT INTO `usuario` (`id_mujer`, `Tipo_documento`, `Documento`, `Nombres`, `Apellidos`, `Telefono`, `Email`, `Ciudad`, `Direccion_mujer`, `Ocupacion`, `fk_id_manzana`) VALUES
-(2, 'CC', '74237623472433', 'santiago', NULL, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO usuario 
+(id_mujer, Tipo_documento, Documento, Nombres, Apellidos, Telefono, Email, Ciudad, Direccion_mujer, Ocupacion, fk_id_manzana) 
+VALUES
+(2, 'CC', '74237623472433', 'Santiago', 'Pérez', '3112345678', 'santiago.perez@example.com', 'Bogotá', 'Calle 123 #45-67', 'Ingeniero', 1),
+(3, 'CC', '123456789', 'Maria', 'Gómez', '3219876543', 'maria.gomez@example.com', 'Medellín', 'Carrera 45 #56-78', 'Diseñadora', 2),
+(4, 'TI', '987654321', 'Carlos', 'López', '3107654321', 'carlos.lopez@example.com', 'Cali', 'Avenida Siempre Viva #101', 'Estudiante', 3);
 
 INSERT INTO `servicios` (`id_servicio`, `Nombre_servicio`, `Tipo_servicio`, `Descripcion`) VALUES
 (1, 'Mantenimiento', 'Preventivo', 'Revisión y ajuste de equipos cada 6 meses'),

@@ -155,6 +155,19 @@ app.delete('/eliminarServicioUsuario',  async (req, res) => {
         res.status(500).send('Error en el servidor');   
     }
 }) 
+
+app.get('/obtenerUsuarios', async (req, res) => {
+    try {
+        const query='select * from usuario'
+        const [usuarios]= await db.query(query)
+        console.log(usuarios);
+        res.status(200).json(usuarios)
+        
+    } catch (error) {
+        console.error('Error en el servidor:', error)
+        res.status(500).send('Error en el servidor'); 
+    }
+})
 // Apertura del servidor
 app.listen(3000, () => {
     console.log(`Servidor Node.js escuchando`)
