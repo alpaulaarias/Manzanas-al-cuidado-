@@ -31,7 +31,7 @@ const db = mysql2.createPool({
 
 // Registrar usuario
 app.post('/crear', async (req, res) => {
-    const { nombres, tipod, numerod, manzanaa } = req.body
+    const { nombres, tipod, numerod, manzanaa, telefono, email, direccion } = req.body
     try {
         //verificar el usurio
         const [veri] = await db.query('SELECT * FROM usuario WHERE Tipo_documento=? AND Documento=?', [tipod, numerod])
@@ -47,7 +47,7 @@ app.post('/crear', async (req, res) => {
                 `)
         }
         else {
-            await db.query('INSERT INTO usuario (Nombres,Tipo_documento,Documento,fk_id_manzana) VALUES (?,?,?,?)', [nombres, tipod, numerod, manzanaa])
+            await db.query('INSERT INTO usuario (Nombres,Tipo_documento,Documento,fk_id_manzana, Telefono, Email, Direccion_mujer) VALUES (?,?,?,?,?,?,?)', [nombres, tipod, numerod, manzanaa, telefono, email, direccion])
             res.status(201).send(`
                 <script>
                 window.onload=function(){
