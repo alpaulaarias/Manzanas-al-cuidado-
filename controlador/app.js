@@ -41,7 +41,7 @@ app.post('/crear', async (req, res) => {
                 <script>
                 window.onload=function(){
                 alert("Usuario existente")
-                window.location.href='.../Vista/sesion.html'
+                window.location.href='./sesion.html'
                 }
                 </script>
                 `)
@@ -52,7 +52,7 @@ app.post('/crear', async (req, res) => {
                 <script>
                 window.onload=function(){
                 alert("DATOS GUARDADOS")
-                window.location.href='.../Vista/sesion.html'
+                window.location.href='./sesion.html'
                 }
                 </script>
                 `)
@@ -160,7 +160,6 @@ app.get('/obtenerUsuarios', async (req, res) => {
     try {
         const query='select * from usuario'
         const [usuarios]= await db.query(query)
-        console.log(usuarios);
         res.status(200).json(usuarios)
         
     } catch (error) {
@@ -168,7 +167,47 @@ app.get('/obtenerUsuarios', async (req, res) => {
         res.status(500).send('Error en el servidor'); 
     }
 })
+app.delete("/eliminarUsuario", async (req,res) => {
+    try {
+        const {usuarioid}=req.body
+        const query="delete from usuario where id_mujer=?"
+        const [resultado]= await db.query(query,[usuarioid])
+        console.log(resultado);
+        res.status(200).json({mensaje: "operacion exitosa"})
+        
+    } catch (error) {
+        console.error('Error en el servidor:', error)
+        res.status(500).send('Error en el servidor'); 
+    }
+})
+app.put ("/actualizarUsuario", async (req,res) => {
+    try {
+        const {usuarioid, nombre, telefono, email, direccion}=req.body
+        console.log(usuarioid, nombre, telefono, email, direccion);
+        
+        const query="update usuario set Nombres=?, Telefono=?, Email=?, Direccion_mujer=? where id_mujer=?"
+        const [resultado]= await db.query(query,[nombre, telefono, email, direccion, usuarioid])
+        console.log(resultado);
+        res.status(200).json({mensaje: "operacion exitosa"})
+        
+    } catch (error) {
+        console.error('Error en el servidor:', error)
+        res.status(500).send('Error en el servidor'); 
+    }
+})
+app.get("/obtenerManzanas", async (req,res) => {
+    try {
+        const query="select * FROM manzanas"
+        const[manzanas]=await db.query(query)
+        res.status(200).json(manzanas)
+    } catch (error) {
+        console.error('Error en el servidor:', error)
+        res.status(500).send('Error en el servidor'); 
+    }
+    
+})
 // Apertura del servidor
 app.listen(3000, () => {
     console.log(`Servidor Node.js escuchando`)
 })
+

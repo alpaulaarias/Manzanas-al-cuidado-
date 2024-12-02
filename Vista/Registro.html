@@ -39,11 +39,7 @@
             <div class="input-group">
                 <label for="manzana">Manzana</label>
                 <select id="manzanaa" name="manzanaa" required>
-                    <option value="" disabled selected>Selecciona una opción</option>
-                    <option value="1">Puente Aranda</option>
-                    <option value="2">Bosa</option>
-                    <option value="3">Suba</option>
-                    <option value="4">Kennedy</option>
+                
                 </select>
             </div>
 
@@ -56,7 +52,21 @@
     </div>
 </div>
 
-    <script src="script.js"></script>
+    <script>
+        fetch("http://localhost:3000/obtenerManzanas")
+        .then(respuesta => respuesta.json())
+        .then(manzanas => {
+            const select=document.getElementById("manzanaa")
+            select.innerHTML='<option value=""></option>'
+
+            manzanas.forEach(manzanaa => {
+                const option=document.createElement("option")
+                option.value=manzanaa.id_manzana
+                option.textContent=manzanaa.Nombre_Manzana
+                select.appendChild(option)
+            });
+         })
+    </script>
 </body>
 </html>
 

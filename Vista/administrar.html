@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body id="principal">
     <form id="formularioUsuarios">
         <table>
@@ -24,60 +26,131 @@
     </form>
     <script>
         obtenerUsuarios()
+
         function obtenerUsuarios() {
             fetch('http://localhost:3000/obtenerUsuarios')
-            .then(res=> res.json())
-            .then(datos=>{
-                const tabla=document.getElementById('tablaUsuarios')
-                tabla.innerHTML="" 
-                datos.forEach(usuario => {
-                    const fila=document.createElement('tr')
+                .then(res => res.json())
+                .then(datos => {
+                    const tabla = document.getElementById('tablaUsuarios')
+                    tabla.innerHTML = ""
+                    datos.forEach(usuario => {
+                        const fila = document.createElement('tr')
 
-                    const celdaid=document.createElement('td')
-                    celdaid.textContent=usuario.id_mujer
-                    fila.appendChild(celdaid)
+                        const celdaid = document.createElement('td')
+                        celdaid.textContent = usuario.id_mujer
+                        fila.appendChild(celdaid)
 
-                    // nombre,telefono,email,direccion
-                    const celdaNombre=document.createElement('td')
-                    celdaNombre.textContent=usuario.Nombres
-                    fila.appendChild(celdaNombre)
+                        // nombre,telefono,email,direccion
+                        const celdaNombre = document.createElement('td')
+                        celdaNombre.textContent = usuario.Nombres
+                        fila.appendChild(celdaNombre)
 
-                    const celdaTelefono=document.createElement('td')
-                    celdaTelefono.textContent=usuario.Telefono
-                    fila.appendChild(celdaTelefono)
+                        const celdaTelefono = document.createElement('td')
+                        celdaTelefono.textContent = usuario.Telefono
+                        fila.appendChild(celdaTelefono)
 
-                    const celdaEmail=document.createElement('td')
-                    celdaEmail.textContent=usuario.Email
-                    fila.appendChild(celdaEmail)
+                        const celdaEmail = document.createElement('td')
+                        celdaEmail.textContent = usuario.Email
+                        fila.appendChild(celdaEmail)
 
-                    const celdaDireccion=document.createElement('td')
-                    celdaDireccion.textContent=usuario.Direccion_mujer
-                    fila.appendChild(celdaDireccion)
+                        const celdaDireccion = document.createElement('td')
+                        celdaDireccion.textContent = usuario.Direccion_mujer
+                        fila.appendChild(celdaDireccion)
 
-                    const celdaAccion=document.createElement('td')
-                    crearBotones(celdaAccion, fila, usuario)
-                    
+                        const celdaAccion = document.createElement('td')
+                        crearBotones(celdaAccion, fila, usuario)
 
-                    tabla.appendChild(fila)
-                });
-            })
-            
+
+                        tabla.appendChild(fila)
+                    });
+                })
+
         }
 
         function crearBotones(celdaAccion, fila, usuario) {
-            const botonEliminar=document.createElement('button')
-            botonEliminar.textContent='Eliminar'
+            const botonEliminar = document.createElement('button')
+            botonEliminar.textContent = 'Eliminar'
+            botonEliminar.onclick = () => eliminarUsuario(usuario)
             celdaAccion.appendChild(botonEliminar)
 
-            const botonActualizar=document.createElement('button')
-            botonActualizar.textContent='Actualizar'
+            const botonActualizar = document.createElement('button')
+            botonActualizar.textContent = 'Actualizar'
+            botonActualizar.onclick = () => cambiarCeldas(usuario, fila, celdaAccion)
             celdaAccion.appendChild(botonActualizar)
 
             fila.appendChild(celdaAccion)
+        }
 
-    
+
+        function eliminarUsuario(usuario) {
+            fetch("http://localhost:3000/eliminarUsuario", {
+                    method: "delete",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        usuarioid: usuario.id_mujer
+                    })
+                })
+                .then(respuesta => {
+                    alert('Usuario eliminado')
+                })
+                .catch(err => alert('Error al eliminar el usuario'))
+        }
+
+        function cambiarCeldas(usuario, fila, celdaAccion) {
+            fila.cells[1].innerHTML = `<input type="text" name="nombre" value="${usuario.Nombres}">`
+            fila.cells[2].innerHTML = `<input type="text" name="telefono" value="${usuario.Telefono}">`
+            fila.cells[3].innerHTML = `<input type="text" name="email" value="${usuario.Email}">`
+            fila.cells[4].innerHTML = `<input type="text" name="Direccion" value="${usuario.Direccion_mujer}">`
+            fila.cells[5].innerHTML = ''
+
+            const botonGuardar = document.createElement('button')
+            botonGuardar.textContent = 'Guardar'
+            botonGuardar.onclick = () =>actualizarUsuario(usuario, fila)
+            celdaAccion.appendChild(botonGuardar)
+
+            const botonCancelar = document.createElement('button')
+            botonCancelar.textContent = 'Cancelar'
+            botonCancelar.onclick = () => cancelarOperacion(usuario, fila)
+            celdaAccion.appendChild(botonCancelar)
+        }
+        function cancelarOperacion(usuario, fila){
+            fila.cells[1].textContent = usuario.Nombres
+            fila.cells[2].textContent = usuario.Telefono
+            fila.cells[3].textContent = usuario.Email
+            fila.cells[4].textContent = usuario.Direccion_mujer
+            const celdaAccion= fila.cells[5]
+            celdaAccion.innerHTML=""
+            crearBotones(celdaAccion, fila, usuario)
+        }
+        function actualizarUsuario( usuario, fila){
+            const nombre=fila.cells[1].querySelector("input").value || usuario.Nombres
+            const telefono=fila.cells[2].querySelector("input").value || usuario.Telefono
+            const email=fila.cells[3].querySelector("input").value || usuario.Email
+            const direccion=fila.cells[4].querySelector("input").value || usuario.Direccion_mujer
+
+            fetch("http://localhost:3000/actualizarUsuario", {
+                    method: "put",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        usuarioid: usuario.id_mujer, 
+                        nombre:nombre, 
+                        telefono:telefono,
+                        email:email, 
+                        direccion: direccion
+                    })
+                })
+                .then(respuesta => {
+                    alert('Usuario actualizado')
+                })
+                .catch(err => alert('Error al actualizar usuario'))
             
+
         }
     </script>
 </body>
+
 </html>

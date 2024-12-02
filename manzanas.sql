@@ -16,8 +16,8 @@ CREATE TABLE servicios(
 CREATE TABLE manzanas_servicios(
     fk_id_manzana INT(5),
     fk_id_servicio INT(5),
-    FOREIGN KEY (fk_id_manzana) REFERENCES Manzanas(id_manzana),
-    FOREIGN KEY (fk_id_servicio) REFERENCES servicios(id_servicio)
+    FOREIGN KEY (fk_id_manzana) REFERENCES Manzanas(id_manzana) ON DELETE CASCADE,
+    FOREIGN KEY (fk_id_servicio) REFERENCES servicios(id_servicio)  ON DELETE CASCADE
 );
 
 CREATE TABLE usuario(
@@ -32,7 +32,7 @@ CREATE TABLE usuario(
     Direccion_mujer VARCHAR(39),
     Ocupacion VARCHAR(39),
     fk_id_manzana INT(5),
-    FOREIGN KEY (fk_id_manzana) REFERENCES Manzanas(id_manzana)
+    FOREIGN KEY (fk_id_manzana) REFERENCES Manzanas(id_manzana) ON DELETE CASCADE
 );
 
 CREATE TABLE solicitudes(
@@ -40,8 +40,8 @@ CREATE TABLE solicitudes(
     Fecha_asistencia DATE,
     fk_id_mujer INT(5),
     fk_id_servicio INT(5),
-    FOREIGN KEY (fk_id_mujer) REFERENCES usuario(id_mujer),
-    FOREIGN KEY (fk_id_servicio) REFERENCES servicios(id_servicio)
+    FOREIGN KEY (fk_id_mujer) REFERENCES usuario(id_mujer)  ON DELETE CASCADE,
+    FOREIGN KEY (fk_id_servicio) REFERENCES servicios(id_servicio)  ON DELETE CASCADE
 );
 
 INSERT INTO `manzanas` (`id_manzana`, `Nombre_manzana`) VALUES
@@ -85,11 +85,3 @@ INSERT INTO `manzanas_servicios` (`fk_id_manzana`, `fk_id_servicio`) VALUES
 (4, 3),
 (4, 4),
 (4, 5);
-
-SELECT Nombre_servicio, Tipo_servicio, Descripcion FROM Usuario INNER JOIN 
-
-SELECT se.Nombre_servicio, se.Descripcion, se.Tipo_servicio FROM usuario  u INNER JOIN solicitudes s ON u.id_mujer = s.fk_id_mujer INNER JOIN servicios se ON s.fk_id_servicio = se.id_servicio;
-
-select * from solicitudes
-
-delete from solicitudes where fk_id_servicio=13
