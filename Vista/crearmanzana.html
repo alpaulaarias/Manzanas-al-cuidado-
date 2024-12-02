@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+
+<body>
+    <form id="crearmanzana" onsubmit="crearManzana(event)">
+        <label for="">Nombre de la manzana</label>
+        <input type="text" name="nombreManzana" id="nombreManzana" required>
+        <label for="servicios"></label>
+        <div id="contenedorServicios"></div>
+        <button type="submit">Crear Manzana</button>
+    </form>
+
+    <script>
+        obtenerServicios()
+        function obtenerServicios() {
+            fetch("http://localhost:3000/obtenerServiciosManzanas")
+                .then(respuesta => respuesta.json())
+                .then(datos => {
+                    const contenedorServicios = document.getElementById("contenedorServicios")
+                    datos.forEach(servicio => {
+                        const contenedor = document.createElement("div")
+                        contenedor.className = "contenedorServicio"
+
+                        const etiqueta = document.createElement("label")
+                        etiqueta.textContent = servicio.Nombre_servicio
+
+                        const checkbox = document.createElement("input")
+                        checkbox.type = "checkbox"
+                        checkbox.name = "servicios"
+                        checkbox.value = servicio.id_servicio
+
+                        contenedor.appendChild(checkbox)
+                        contenedor.appendChild(etiqueta)
+                        contenedorServicios.appendChild(contenedor)
+                    });
+                })
+        }
+        function crearManzana(event) {
+            event.preventDefault()
+
+            const formulario = document.getElementById("crearmanzana")
+            const datosFormulario = new FormData(formulario)
+            const nombreManzana = datosFormulario.get("nombreManzana")
+            const serviciosSeleccionados = datosFormulario.getAll("servicios")
+
+            fetch("http://localhost:3000/crearManzana", {
+                method: "post",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nombre: nombreManzana,
+                    servicios: serviciosSeleccionados
+                })
+            })
+                .then(respuesta => {
+                    alert('Manzana Creada')
+                })
+                .catch(err => alert('Error al crear manzana'))
+        }
+    </script>
+</body>
+
+</html>

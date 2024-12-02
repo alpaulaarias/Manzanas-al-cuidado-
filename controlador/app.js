@@ -5,6 +5,7 @@ const path = require('path')
 const moment = require('moment')
 const session = require('express-session')
 const { log } = require('console')
+const { console } = require('inspector')
 const app = express()
 
 // Middleware
@@ -205,6 +206,43 @@ app.get("/obtenerManzanas", async (req,res) => {
         res.status(500).send('Error en el servidor'); 
     }
     
+})
+app.get("/obtenerServiciosManzanas", async (req,res) => {
+    try {
+        const query="SELECT * FROM servicios"
+        const[servicios]=await db.query(query)
+        res.status(200).json(servicios)
+    } catch (error) {
+        console.error('Error en el servidor:', error)
+        res.status(500).send('Error en el servidor'); 
+    }
+})
+app.post("/crearManzana", async (req,res) =>{
+    try {
+        const{nombre, servicios}=req.body
+        const queryManzana="INSERT INTO manzanas(Nombre_Manzana) VALUES(?)"
+        const [resultadoManzana]=await db.query(queryManzana,[nombre])
+        console.log(resultadoManzana)
+        const idManzana = resultadoManzana.insertId
+        servicios.forEach(async idServicio => {
+            const queryServicio="INSERT INTO manzanas_servicios(fk_id_manzana, fk_id_servicio) VALUES(?,?)"
+            const [resultadoServicio]=await db.query(queryServicio,[idManzana, idServicio])
+        });
+        res.status(200).json({mensaje: "operacion exitosa"})
+    } catch (error) {
+        console.error('Error en el servidor:', error)
+        res.status(500).send('Error en el servidor'); 
+    }
+})
+
+app.get("/cerrarSesion", async (req,res)=>{
+    req.session.destroy((error)=>{
+        if (error) {
+            console.error("Error al cerrar sesión", error);
+            res.status(500).send('Error en el servidor'); 
+        }
+        res.redirect("/sesion.html")
+    })
 })
 // Apertura del servidor
 app.listen(3000, () => {
