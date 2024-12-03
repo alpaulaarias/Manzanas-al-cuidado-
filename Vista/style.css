@@ -44,12 +44,7 @@ header ul li a {
 
 /* Inicio de sesion y Registro */
 
-#principal{
-    /* background-image: url(../img/fondo_manzanas.jpg); */
-    background-color: #C4DAD2 ;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+
 
 body {
     margin: 0;
@@ -88,7 +83,6 @@ body {
     background-color: rgb(189, 128, 224);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 50%;
 }
 
@@ -120,12 +114,15 @@ form h2 {
     justify-content: space-between;
 }
 button {
-    padding: 10px;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    width: 48%;
+    background-color: #a649e4;
+    height: 46px;
+    width: 200px;
+}
+button :hover{
+    background-color: #0056b3;
 }
 .submit-btn {
     background-color: #000000cb;
@@ -194,29 +191,8 @@ h2 {
 }
 
 /* Estilo para los botones */
-.botoneDes{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center ;
-    
-}
-button {
-    background-color: #c6a0eb; 
-    color: white;
-    padding: 10px 20px;  
-    font-size: 16px; 
-   
-    cursor: pointer; 
-    border-radius: 5px;
-    border: 3px solid #000000;
-    border-radius: 5px;
-    
-    
-}
-button:hover {
-    background-color: #bae4a2; 
-}
+
+
 /* Botón para cerrar*/
 #btnCerrar {
     background-color: #d436f4;
@@ -251,7 +227,7 @@ th, td {
 }
 
 th {
-    background-color: #f2f2f2; /* Fondo gris claro */
+    background-color: #a649e4; /* Fondo gris claro */
     color: #333;
 }
 
@@ -265,5 +241,85 @@ input[type="datetime-local"] {
     border-radius: 4px;
 }
 
+prueba
 
+
+
+
+h1 {
+    text-align: center;
+    color: #8670e7;
+    margin-bottom: 30px;
+}
+
+h2 {
+    margin-top: 30px;
+    color: #0056b3;
+}
+
+form {
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+form button {
+    background-color: #e27dba;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+form button:focus {
+    outline: none;
+}
+
+/* Específico para cada formulario */
+#addServiceForm {
+    border-left: 5px solid #28a745;
+}
+
+#updateServiceForm {
+    border-left: 5px solid #ffc107;
+}
+
+#deleteServiceForm {
+    border-left: 5px solid #dc3545;
+}
+
+.el{
+    padding: 1%;
+    background-color: #a649e4;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 0 2%;
+    border: 2px solid #030303;
+    border-radius: 4px;
+}
 
