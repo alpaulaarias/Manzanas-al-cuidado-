@@ -244,6 +244,68 @@ app.get("/cerrarSesion", async (req,res)=>{
         res.redirect("/sesion.html")
     })
 })
+
+// app.post("/manzana-servicio", async (req,res) =>{
+//     try {
+//         const {crearManzana, craerServicio}=req.body
+
+//     } catch (error) {
+//         console.error('Error en el servidor:', error)
+//         res.status(500).send('Error en el servidor'); 
+//     }
+// })
+
+// Endpoint para crear un servicio en una manzana
+app.post('/manzana-servicio', (req, res) => {
+   const { fk_id_manzana, fk_id_servicio } = req.body;
+    if (!fk_id_manzana || !fk_id_servicio) {
+       return res.status(400).json({ error: 'Los campos fk_id_manzana y fk_id_servicio son obligatorios.' });
+   }
+
+   const query = 'INSERT INTO manzanas_servicios (fk_id_manzana, fk_id_servicio) VALUES (?, ?)';
+    db.query(query, [fk_id_manzana, fk_id_servicio], (err, result) => {
+       if (err) {
+            console.error('Error al insertar en manzanas_servicios:', err);
+          return res.status(500).json({ error: 'Error interno del servidor.' });
+       }
+        res.status(200).json({ message: 'Servicio añadido a la manzana correctamente.', id: result.insertId });
+     });
+ });
+
+// Endpoint para actualizar un servicio de una manzana
+ app.put('/manzana-servicio', (req, res) => {
+    const { fk_id_manzana, fk_id_servicio, nuevo_fk_id_servicio } = req.body;
+    if (!fk_id_manzana || !fk_id_servicio || !nuevo_fk_id_servicio) {
+        return res.status(400).json({ error: 'Los campos fk_id_manzana, fk_id_servicio y nuevo_fk_id_servicio son obligatorios.' });
+    }
+
+    const query = 'UPDATE manzanas_servicios SET fk_id_servicio = ? WHERE fk_id_manzana = ? AND fk_id_servicio = ?';
+    db.query(query, [nuevo_fk_id_servicio, fk_id_manzana, fk_id_servicio], (err, result) => {
+        if (err) {
+             console.error('Error al actualizar en manzanas_servicios:', err);
+             return res.status(500).json({ error: 'Error interno del servidor.' });
+         }
+        res.status(200).json({ message: 'Servicio actualizado correctamente en la manzana.' });
+     });
+ });
+
+// Endpoint para eliminar un servicio de una manzana
+ app.delete('/manzana-servicio', (req, res) => {
+     const { fk_id_manzana, fk_id_servicio } = req.body;
+     if (!fk_id_manzana || !fk_id_servicio) {
+         return res.status(400).json({ error: 'Los campos fk_id_manzana y fk_id_servicio son obligatorios.' });
+     }
+
+    const query = 'DELETE FROM manzanas_servicios WHERE fk_id_manzana = ? AND fk_id_servicio = ?';
+     db.query(query, [fk_id_manzana, fk_id_servicio], (err, result) => {
+         if (err) {
+             console.error('Error al eliminar en manzanas_servicios:', err);
+             return res.status(500).json({ error: 'Error interno del servidor.' });
+        }
+         res.status(200).json({ message: 'Servicio eliminado correctamente de la manzana.' });
+     });
+ });
+
 // Apertura del servidor
 app.listen(3000, () => {
     console.log(`Servidor Node.js escuchando`)
